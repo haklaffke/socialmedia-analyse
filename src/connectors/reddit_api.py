@@ -1,7 +1,7 @@
 import json
 import requests
 import pandas as pd
-import time  # <-- NEU: Wichtig für die Pausen zwischen den Abfragen!
+import time 
 
 """
 This function retrieves reddit comments searched by the entered keyword.
@@ -17,15 +17,12 @@ def fetch_reddit_data(product_name, limit=100):
     
     results = []
     after_token = None
-    
-    # Solange wir unser Ziel-Limit noch nicht erreicht haben...
+
     while len(results) < limit:
-        # Berechnen, wie viele wir noch brauchen (aber nie mehr als 100 auf einmal anfragen)
         request_limit = min(100, limit - len(results))
         
         url = f"https://www.reddit.com/search.json?q={product_name}&limit={request_limit}"
         
-        # Wenn wir einen Token haben, hängen wir ihn an (für Seite 2, 3, 4...)
         if after_token:
             url += f"&after={after_token}"
             
@@ -35,7 +32,6 @@ def fetch_reddit_data(product_name, limit=100):
             data = response.json()
             posts = data.get("data", {}).get("children", [])
             
-            # Wenn Reddit keine Posts mehr zurückgibt, sind wir am absoluten Ende
             if not posts:
                 print("Keine weiteren Ergebnisse bei Reddit gefunden.")
                 break
@@ -52,26 +48,21 @@ def fetch_reddit_data(product_name, limit=100):
                     "url": "https://reddit.com" + post_data.get("permalink", "")
                 })
                 
-                # Mitten in der Schleife abbrechen, falls wir exakt das Limit erreicht haben
                 if len(results) >= limit:
                     break
             
-            # Den Token für die nächste Seite holen
             after_token = data.get("data", {}).get("after")
             
-            # Wenn 'after' leer ist, gibt es keine nächste Seite mehr
             if not after_token:
                 break
                 
-            # --- DER WICHTIGSTE TEIL: SPAM-SCHUTZ ---
             print(f"Gefunden: {len(results)}... Lade nächste Seite...")
-            time.sleep(1.5)  # 1,5 Sekunden warten, um Error 429 zu vermeiden!
+            time.sleep(1.5) 
             
         else:
             print(f"Error while connecting. Error code: {response.status_code}")
             break
             
-    print(f"✅ Reddit Download abgeschlossen. {len(results)} Posts gesammelt.")
     df = pd.DataFrame(results)
     return df
 
