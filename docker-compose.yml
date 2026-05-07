@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    image: socialmedia-analyse:latest
+    container_name: socialmedia-analyse
+    env_file:
+      - .env
+    # Allow the container to reach a Postgres/Grafana running on the Docker host
+    # (host.docker.internal). On Linux this maps it to the host gateway.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Persist the CSV output produced by the pipeline outside the container.
+    volumes:
+      - ./data:/app/src/backend/output
+    restart: "no"
+
+
