@@ -1,0 +1,21 @@
+# Git / IDE
+.git
+.gitignore
+.idea
+.vscode
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv
+.env
+
+# Build artefacts / data
+*.csv
+presentation
+tex
+README.md
+
