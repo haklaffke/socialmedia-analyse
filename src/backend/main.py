@@ -1,7 +1,7 @@
 import os
 import sys
 import pandas as pd
-
+from dotenv import load_dotenv
 from connectors.reddit_api import fetch_reddit_data
 from connectors.hackernews_api import fetch_hackernews_data
 from connectors.youtube_api import fetch_youtube_data
