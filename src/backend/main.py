@@ -62,6 +62,9 @@ def run_pipeline(searchquery: str, limit: int) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
+    # CLI / batch mode. The container default command is the FastAPI server
+    # (see Dockerfile), so this branch is only used when you explicitly run
+    # `python main.py` (e.g. for local debugging or a one-off cron job).
     searchquery = _get_param("SEARCH_QUERY", "Enter a product name: ")
     limit = int(_get_param("SEARCH_LIMIT", "Enter a limit for the search results: "))
 

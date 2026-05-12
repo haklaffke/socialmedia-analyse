@@ -5,6 +5,9 @@ services:
     container_name: socialmedia-analyse
     env_file:
       - .env
+    # Expose the FastAPI server on the host.
+    ports:
+      - "8000:8000"
     # Allow the container to reach a Postgres/Grafana running on the Docker host
     # (host.docker.internal). On Linux this maps it to the host gateway.
     extra_hosts:
@@ -12,6 +15,7 @@ services:
     # Persist the CSV output produced by the pipeline outside the container.
     volumes:
       - ./data:/app/src/backend/output
-    restart: "no"
+    # Keep the API alive; restart on failure.
+    restart: unless-stopped
 
 

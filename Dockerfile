@@ -24,6 +24,7 @@ COPY src/ ./src/
 # (e.g. `from connectors.reddit_api import ...`) keep working.
 WORKDIR /app/src/backend
 
-# Default command: run the analysis pipeline once.
-# Configure via env vars SEARCH_QUERY and SEARCH_LIMIT (see README / docker-compose.yml).
-CMD ["python", "-u", "main.py"]
+# Default command: start the FastAPI server and wait for POST /analyze.
+# Override with `command: ["python", "-u", "main.py"]` in compose for batch mode.
+EXPOSE 8000
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
