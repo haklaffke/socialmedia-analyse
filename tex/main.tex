@@ -1,6 +1,15 @@
 \documentclass[12pt]{article}
 \usepackage{graphicx} 
-\usepackage{fancyhdr} 
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Definition der offiziellen Syntax-Farben
+\definecolor{pygreen}{rgb}{0.0, 0.5, 0.0}
+\definecolor{pyblue}{rgb}{0.0, 0.0, 0.8}
+\definecolor{pypurple}{rgb}{0.5, 0.0, 0.5}
+\definecolor{pygray}{rgb}{0.4, 0.4, 0.4}
+\definecolor{pybackground}{rgb}{0.98, 0.98, 0.98}
 \usepackage[a4paper, top=40mm, bottom=20mm, left=40mm, right=20mm, footnotesep=10mm]{geometry} \usepackage{mathptmx} 
 \usepackage[T1]{fontenc} 
 \usepackage[]{blindtext} 
@@ -9,6 +18,7 @@
 \usepackage{pdfpages}
 \usepackage{ragged2e}
 \usepackage{float}
+\usepackage{amsmath}
 \ExecuteBibliographyOptions{maxcitenames=2,mincitenames=1}
  
 \makeatletter
@@ -79,13 +89,13 @@
    \printfield{year}% 
   }% 
 }
-\DeclareFieldFormat[online]{title}{#1}
-\DeclareFieldFormat[misc]{title}{#1}
-\DeclareFieldFormat[article]{title}{#1}
-\DeclareFieldFormat[incollection]{title}{#1}
-\DeclareFieldFormat[inproceedings]{title}{#1}
-\DeclareFieldFormat[thesis]{title}{#1}
-\DeclareFieldFormat[book]{title}{#1}
+% Formatiert den Titel für ALLE Quellentypen einheitlich
+\DeclareFieldFormat{title}{%
+  #1% Druckt den normalen Volltitel
+  \iffieldundef{shorttitle}% Prüft, ob ein Kurztitel existiert
+    {}% Wenn nein: Nichts weiter tun
+    {\space[zitiert als: \thefield{shorttitle}]}% Wenn ja: Kurztitel anhängen
+}
  
 \DeclareNameWrapperFormat{author}{\mkbibemph{#1}}
 \DeclareNameWrapperFormat{editor}{\mkbibemph{#1}}
@@ -156,16 +166,16 @@
     \vspace{1cm}
     {\scshape\large Anwendungsprojekt\par}
     \vspace{1cm}
-    {\scshape\large Solana Smart Contract Development und\par}
-    {\scshape\large Decentralized Applications \par}
+    {\scshape\large Titel\par}
+    {\scshape\large Kurztitel \par}
     \vspace{6cm}
-    {\textsc\Large Betreuer(in): LL. M. Marcel Supernok-Kolbe\par}
+    {\textsc\Large Betreuer(in): Dr. Rudolf Schnee\par}
     \vspace{1cm}
-    {\textsc\Large Autor(in):Robin Schütz\par}
+    {\textsc\Large Autor(in):Simon Puder, Hannes Klaffke, Ilham Bekarwal, Robin Schütz\par}
     \vspace{1cm}
-    {\textsc\Large Matrikelnr.: 731530\par}
+    {\textsc\Large Matrikelnr.: \par}
     \vspace{1cm}
-    {\textsc\Large Abgabedatum: 22.02.2026\par}
+    {\textsc\Large Abgabedatum: 30.07.2026\par}
     \vspace{1cm}
 \newpage
 \pagenumbering{Roman}
@@ -202,20 +212,204 @@
 \subsection{Prototyping als Entwicklungsansatz}
 \subsection{Methodik der Datenerhebung}
 \section{Projektmanagement und Rahmenbedingungen}
+In diesem Kapitel wird dargestellt, wie das Projekt RUDI organisatorisch und methodisch aufgebaut wurde. Dabei werden zunächst der Modul- und Projektrahmen sowie der konkrete Projektgegenstand erläutert. Anschließend werden die Teamstruktur, die Rollenverteilung, die Kommunikations- und Dokumentationswege sowie die Termin- und Maßnahmenplanung beschrieben. Darüber hinaus wird das gewählte projektmethodische Vorgehen eingeordnet und begründet. Abschließend werden zentrale Risiken und offene Punkte betrachtet, um nachvollziehbar zu machen, wie das Projekt strukturiert geplant, gesteuert und reflektiert wurde.
 \subsection{Modul- und Projektrahmen}
+Ein Projekt wird in der Literatur als ein zeitlich begrenztes Vorhaben verstanden, 
+das auf die Erstellung eines einzigartigen Produkts, einer Dienstleistung oder 
+eines konkreten Ergebnisses ausgerichtet ist\footcite[Vgl.][1--2]{couto-2022}. 
+Das Projekt RUDI ist im Modul \glqq Anwendungsprojekt\grqq\ eingebettet. Dieses 
+Modul gibt den organisatorischen Rahmen vor und verbindet die wissenschaftliche 
+Ausarbeitung mit einer Abschlusspräsentation sowie der praktischen Zusammenarbeit 
+im Team\footcite[Vgl.][4--9]{schnee-2026}. Für die Projektleitung bietet der 
+Guide to the Project Management Body of Knowledge (PMBOK) einen theoretischen 
+Bezugspunkt, da er Projektmanagement in die Phasen Initiierung, Planung, 
+Ausführung, Überwachung und Abschluss unterteilt\footcite[Vgl.][2--3]{couto-2022}.
+Eine klare Projektorganisation war im Projekt RUDI besonders wichtig, da die 
+Teammitglieder das Vorhaben parallel zu beruflichen Verpflichtungen und weiteren 
+Studienleistungen bearbeiteten. Gerade in Softwareprojekten steigt das Risiko von 
+Verzögerungen oder Zielverfehlungen, wenn kein gemeinsames Verständnis über 
+Projektziel, Vorgehen und Zeitplanung besteht\footcite[Vgl.][1--2]{bogopa-2022}. 
+Eine belastbare Planung und regelmäßige Koordination waren daher notwendig, um 
+typische Projektprobleme wie unklare Zuständigkeiten, Verzögerungen oder fehlende 
+Abstimmung zu vermeiden\footcite[Vgl.][518--519]{sitnikov-2024}. In diesem 
+Kontext diente die Projektorganisation als stabilisierende Struktur. Sie half 
+dabei, interdisziplinäre Anforderungen zu ordnen, Aufgaben zu verteilen und die 
+begrenzten personellen Kapazitäten zielgerichtet einzusetzen\footcite[Vgl.][522]{sitnikov-2024}.
 \subsection{Projektgegenstand RUDI}
+Gegenstand des Projekts RUDI ist die Entwicklung eines Social-Media Analyse Systems. 
+Ziel des Systems ist es, öffentlich verfügbare Meinungs- und Bewertungsdaten 
+automatisiert zu erfassen und auszuwerten, um daraus fundierte Aussagen zur 
+Produktbewertung abzuleiten. In der Software-Projektmanagement-Theorie wird das 
+finale Produkt als das am Ende gelieferte Arbeitssystem verstanden\footcite[Vgl.][2--3]{couto-2022}. 
+Für RUDI bedeutet dies, dass verschiedene funktionale Anforderungen zusammengeführt 
+werden, insbesondere die Datengewinnung über Schnittstellen und die anschließende 
+Verarbeitung der gewonnenen Informationen\footcite[Vgl.][9--10]{alzahrani-2025}. 
+Ein zentraler Bestandteil der Projektumsetzung war die Entwicklung eines funktionalen 
+Prototyps auf Basis von Python. Der Prototyp sollte die technische Machbarkeit der 
+konzeptionellen Überlegungen zeigen, ohne bereits eine vollständig ausgereifte 
+technische Lösung darzustellen. Damit folgt das Projekt dem Gedanken des 
+\glqq Working Software\grqq\ Ansatzes, bei dem lauffähige Software als wichtiger 
+Indikator für Projektfortschritt gilt\footcite[Vgl.][838--840]{rathor-2024}. 
+Durch den Prototyp konnte das Team früh prüfen, ob die gewählten Analysemodelle 
+geeignet sind, und die Architektur auf Basis erster Ergebnisse schrittweise 
+anpassen\footcite[Vgl.][301]{bagiu-2022}.
+\subsection{Teamstruktur und Rollen}
+Die Leistungsfähigkeit eines Softwareentwicklungsteams hängt wesentlich von der 
+Teamqualität ab. Dazu zählen unter anderem Kommunikation, gegenseitige Unterstützung 
+und die Zusammenarbeit zwischen den Teammitgliedern\footcite[Vgl.][124]{agbejule-2022}. 
+Für das Projekt RUDI wurde deshalb eine Teamstruktur gewählt, die klare 
+Verantwortlichkeiten vorsah und gleichzeitig die individuellen Stärken der 
+Mitglieder berücksichtigte. Ein engagiertes und motiviertes Team gilt in der 
+Literatur als ein zentraler Erfolgsfaktor für Softwareprojekte\footcite[Vgl.][1--2]{bogopa-2022}. 
+Ilham Bekarwal übernahm die Projektkoordination. Dazu gehörten die Leitung der 
+Meetings, die Abstimmung innerhalb des Teams sowie die laufende Protokollierung 
+der Ergebnisse. Diese Rolle war vor allem organisatorisch ausgerichtet und 
+diente dazu, den Informationsfluss sicherzustellen und die vereinbarten 
+Rahmenbedingungen im Blick zu behalten\footcite[Vgl.][6]{gorog-2025}. Hannes 
+Klaffke wurde in den Projektunterlagen praxisnah als Product Owner bezeichnet und 
+übernahm zusätzlich Aufgaben als GitHub Owner, Entwickler und Writer. Im Unterschied 
+zu einem klassischen Scrum Modell ist diese Rolle im Projekt RUDI jedoch eher als 
+Verantwortung für die inhaltliche Produktvision und das technische Repository zu 
+verstehen, nicht als vollständig ausgeprägte Product Owner Rolle innerhalb eines 
+agilen Frameworks\footcite[Vgl.][3]{gorog-2025}. 
+Robin Schütz und Simon Puder waren vor allem als Entwickler und Writer tätig. Ihre 
+Aufgaben lagen in der Umsetzung technischer Komponenten sowie in der Dokumentation 
+der Konzepte. Bei der Frontend-Zuständigkeit wurde eine flexible Lösung gewählt. 
+Während Simon Puder in Teilen der Planung als hauptverantwortlich vorgesehen war, 
+gab es auch Phasen, in denen die Zuständigkeit gemeinsam mit Hannes Klaffke getragen 
+wurde. Diese Form der Zusammenarbeit passt zu einer geteilten Projektverantwortung, 
+wie sie in modernen, agilen Arbeitsumgebungen genutzt wird, um Flexibilität und 
+Eigenverantwortung zu fördern\footcite[Vgl.][2--3]{gorog-2025}. Insgesamt bildete 
+die fachliche, technische und soziale Kompetenz des Teams die Grundlage für die 
+Erreichung der Projektziele\footcite[Vgl.][842--843]{rathor-2024}.
 \subsection{Kommunikation und Dokumentation}
+Die Kommunikation im Projekt RUDI orientierte sich am PMBOK Wissensbereich 
+\glqq Project Communications Management\grqq. Ziel war es, relevante Informationen 
+rechtzeitig zu erzeugen, zu sammeln und im Team zu verteilen\footcite[Vgl.][2--3]{couto-2022}. 
+Als zentrales Abstimmungsformat wurde ein wöchentlicher Jour fixe eingerichtet, der mittwochs 
+um 14:00 Uhr stattfand. Die Meetings wurden hybrid durchgeführt, sodass sowohl 
+eine Teilnahme vor Ort als auch eine virtuelle Teilnahme über Microsoft Teams 
+möglich war. Gerade bei räumlich verteilten oder zeitlich eingeschränkten Teams 
+sind solche Kommunikationsformen wichtig, um eine gemeinsame Informationsbasis 
+zu sichern\footcite[Vgl.][3]{couto-2022}. 
+Für die strukturierte Dokumentation und den Wissensaustausch nutzte das Team 
+SharePoint als zentrale Ablage für Protokolle, Dokumente und Abbildungen. 
+Modelle wie das \glqq Pre-During-After Software Development Documentation Model\grqq\ 
+(PDA-SDD) betonen die Bedeutung einer zentralen Dokumentation, um Redundanzen 
+zu vermeiden und die Integrität von Dokumenten über den gesamten Projektverlauf 
+hinweg zu sichern\footcite[Vgl.][5--6]{alzahrani-2025}. Wichtige 
+Entscheidungen wurden fortlaufend protokolliert. Dadurch entstand Transparenz, 
+und die Protokolle konnten zugleich als Referenz für spätere Projektphasen 
+genutzt werden\footcite[Vgl.][12]{alzahrani-2025}. 
+Die technische Dokumentation sowie die Verwaltung des Quellcodes und weiterer 
+technischer Artefakte erfolgten über GitHub. Der Einsatz von 
+Versionierungssystemen unterstützt dabei, Änderungen nachvollziehbar zu machen 
+und die Entwicklung des Projekts sauber zu dokumentieren\footcite[Vgl.][7]{alzahrani-2025}. 
+Ergänzend half die visuelle Aufbereitung von Informationen, etwa durch Architekturskizzen 
+oder Dashboards, komplexe Zusammenhänge im Team und gegenüber Stakeholdern verständlicher 
+darzustellen\footcite[Vgl.][1--2]{couto-2022}. Kommunikation wurde in diesem Projekt 
+somit nicht nur als reiner Informationsaustausch verstanden, sondern auch als Grundlage 
+für gemeinsame Entscheidungen und eine flexiblere Projektsteuerung\footcite[Vgl.][841--842]{rathor-2024}.
 \subsection{Termin- und Maßnahmenplanung}
+Die Planung des Projekts RUDI orientierte sich an den offiziellen Meilensteinen des 
+Moduls sowie an einem internen Projektzeitstrahl. Eine präzise Planung gilt als 
+wichtige Voraussetzung, um Zeit, Kosten und Qualität in einem Projekt steuern zu 
+können\footcite[Vgl.][517]{sitnikov-2024}. Das Vorhaben wurde deshalb in mehrere 
+aufeinander aufbauende Phasen gegliedert. 
+Die erste Phase umfasste den Projektstart und die Konkretisierung des Themas. In 
+dieser Phase wurden die Projektvision geschärft und die grundlegenden Ziele 
+definiert\footcite[Vgl.][2]{couto-2022}. Anschließend folgte die Machbarkeitsprüfung. 
+Dabei prüfte das Team insbesondere, ob geeignete Datenquellen verfügbar sind und 
+ob der Zugriff auf notwendige APIs möglich ist. Diese Prüfung war wichtig, da 
+technische Hürden zu Beginn das gesamte Projektfundament beeinflussen 
+können\footcite[Vgl.][517--518]{sitnikov-2024}. 
+In der dritten Phase standen das Fachkonzept und das Analysemodell im Mittelpunkt. 
+Die Anforderungen wurden konkretisiert und in eine Systemarchitektur 
+überführt\footcite[Vgl.][11--12]{alzahrani-2025}. In der Realisierungsphase 
+arbeitete das Team parallel am Python-Prototyp und an der schriftlichen Ausarbeitung. 
+Die methodische Trennung in \glqq Pre-\grqq, \glqq During-\grqq\ und 
+\glqq After-Delivery\grqq-Aktivitäten unterstützte dabei, Nutzer und technische 
+Dokumentationen systematisch in den Entwicklungsprozess einzubinden\footcite[Vgl.][8]{alzahrani-2025}. 
+Den Abschluss des Projekts bildete die finale Präsentation der Ergebnisse. Eine 
+realistische Zeitplanung mit Puffern für unvorhergesehene Ereignisse war dabei ein 
+wichtiger Faktor für die Wahrnehmung des Projekterfolgs\footcite[Vgl.][6--7]{bogopa-2022}.
+\subsection{Projektmethodisches Vorgehen}
+Das methodische Vorgehen im Projekt RUDI war iterativ und pragmatisch angelegt. 
+Es wurde kein vollständiges Scrum Framework eingeführt, da dies eine höhere 
+organisatorische Reife und passende Rahmenbedingungen vorausgesetzt hätte. 
+Stattdessen dienten agile Prinzipien, Scrum und hybride Modelle als theoretische 
+Orientierung\footcite[Vgl.][1585]{syed-2023}. So konnte das Team flexibel auf neue 
+Erkenntnisse während der Entwicklung reagieren, ohne die notwendige Struktur 
+klassischer Projektmanagementansätze vollständig aufzugeben\footcite[Vgl.][1583]{syed-2023}. 
+Der Projektablauf begann mit der Festlegung des Themas und der Entwicklung einer 
+gemeinsamen Projektvision. Danach folgte die Machbarkeitsprüfung, die als 
+Entscheidungsgrundlage für die technische Umsetzung diente\footcite[Vgl.][517--518]{sitnikov-2024}. 
+In weiteren Schritten wurden die Forschungsfragen geschärft und die Architektur 
+des Prototyps entworfen. Die Entwicklung des Prototyps, die Erstellung der 
+Präsentation und die schriftliche Ausarbeitung verliefen weitgehend parallel. 
+Agilität wurde dabei als Fähigkeit verstanden, auf geänderte Anforderungen oder 
+technische Herausforderungen zeitnah zu reagieren\footcite[Vgl.][835--836]{rathor-2024}. 
+Ein wichtiger Bestandteil des Vorgehens war das Einholen von Feedback durch 
+Zwischenpräsentationen und Coachings. Diese Feedbackschleifen halfen dabei, das 
+Projekt auf Kurs zu halten und die Erwartungen der betreuenden Dozenten zu 
+berücksichtigen\footcite[Vgl.][64--65]{stan-2024}. Methodisch lässt sich dieses 
+Vorgehen als Form des \glqq Tool-Level Tailoring\grqq\ (TLT) verstehen: Aus 
+verschiedenen Managementmethoden wurden diejenigen Instrumente ausgewählt, die 
+zum Kontext des RUDI Projekts passten\footcite[Vgl.][6--7]{gorog-2025}. Der 
+gewählte hybride Ansatz verband damit die Planungssicherheit traditioneller 
+Methoden mit der Anpassungsfähigkeit agiler Vorgehensweisen\footcite[Vgl.][124--125]{agbejule-2022}.
 \subsection{Risiken und offene Punkte}
+Risikomanagement ist ein zentraler Bestandteil des IT-Projektmanagements, da 
+IT-Projekte aufgrund ihrer Komplexität und Dynamik immer mit Unsicherheiten 
+verbunden sind\footcite[Vgl.][517--518]{sitnikov-2024}. Ein systematisches Vorgehen 
+hilft dabei, mögliche Risiken frühzeitig zu erkennen, zu bewerten und während des 
+Projektverlaufs weiter zu beobachten\footcite[Vgl.][64--65]{stan-2024}. 
+Ziel ist nicht, alle Unsicherheiten vollständig auszuschließen. Vielmehr sollen 
+potenzielle Störungen sichtbar gemacht und passende Gegenmaßnahmen abgeleitet werden, 
+um die Widerstandsfähigkeit des Projekts zu stärken\footcite[Vgl.][64--65]{stan-2024}. 
+Dafür können unter anderem Risikoregister, kontinuierliches Monitoring und 
+Feedbackschleifen genutzt werden, damit auf Veränderungen im Projektumfeld rechtzeitig 
+reagiert werden kann\footcite[Vgl.][65]{stan-2024}.
 \section{Datenarchitektur und Preprocessing}
+Die Qualität und Zuverlässigkeit von Data-Science-Anwendungen hängt fundamental von der zugrunde liegenden Datenarchitektur sowie der strukturellen Aufbereitung der Rohdaten ab. In diesem Kapitel wird die Konzeption und Implementierung der Datenbeschaffungsprozesse für den entwickelten Prototyp erläutert. Zunächst werden die systemischen Rahmenbedingungen und Restriktionen bei der Erhebung von Social-Media-Daten beleuchtet. Darauf aufbauend wird die technische Architektur der implementierten Datenschnittstellen detailliert, bevor abschließend die textuellen Vorverarbeitungsschritte (Natural Language Preprocessing) als Bindeglied zur eigentlichen Sentiment-Analyse dargelegt werden.
 \subsection{Limitierungen offener Datenschnittstellen}
+Die Verfügbarkeit massenhafter, unstrukturierter Textdaten aus sozialen Medien bildete lange Zeit das Fundament für die rasanten Fortschritte im Bereich des Natural Language Processings und der computergestützten Meinungsforschung\footcite[1]{bharathi-2025}. Der in der wissenschaftlichen Literatur als „APIcalypse“ bezeichnete Paradigmenwechsel beschreibt jedoch die systematische Schließung oder aggressive Kommerzialisierung ehemals offener Schnittstellen durch große Technologiekonzerne\footcite[3]{perriam-2020}. Plattformen wie Facebook und Instagram haben den Zugang für die öffentliche, nicht-profitable Forschung massiv eingeschränkt, während der Datenfluss primär für marketingorientierte Akteure aufrechterhalten wird\footcite[7]{perriam-2020}.
+Diese Entwicklung stellt die methodische Forschung vor erhebliche Herausforderungen, da insbesondere die Replizierbarkeit von Studien gefährdet ist, wenn Datensätze aufgrund von Paywalls oder abrupt abgeschalteten Endpunkten nicht mehr unabhängig verifiziert werden können\footcite[7]{perriam-2020}. Zudem erzwingen serverseitige Restriktionen wie strikte Rate Limits eine Abkehr von naiven Datenabrufen hin zu einer hochgradig anpassungsfähigen Softwarearchitektur\footcite[373]{liu-2011}. Ein robustes System muss heute so konzipiert sein, dass es die vorgegebenen Quoten der Betreiber strikt respektiert, um eine Blockierung durch automatisierte Sicherheitsmechanismen zu verhindern\footcite[373]{liu-2011}.
+Um diesen Limitierungen zu begegnen, implementiert der vorliegende Prototyp ein kontrolliertes Request-Handling, das sich an der Architektur skalierbarer Web-Crawler orientiert und Anfragen sequenziell oder über parallele Warteschlangen verteilt\footcite[343]{liu-2011}. Angesichts der Instabilität moderner Datenquellen verdeutlicht die „APIcalypse“ zudem die Notwendigkeit eines modularen Systemaufbaus, der Plattform-Ausfälle flexibel kompensieren kann\footcite[3]{perriam-2020}. Durch die dynamische Integration alternativer Quellen, wie etwa YouTube-Metadaten oder umfangreicher E-Commerce-Rezensionen, bleibt die analytische Kernlogik stabil, während gleichzeitig die Belastbarkeit der Ergebnisse durch Datenfusion erhöht wird.
 \subsection{Architektur der Datenschnittstellen}
+Die Architektur der Datenschnittstellen folgt dem Prinzip der modularen Systemintegration und orientiert sich an etablierten ETL-Prozessen (Extract, Transform, Load). Ziel dieser Architektursebene ist es, heterogene Datenströme aus vier spezifischen Plattformen – YouTube, Reddit, Hacker News und Amazon – zu aggregieren und in ein homogenes, maschinenlesbares Format zu überführen \footcite[5]{nelli-2015}. Die technische Umsetzung erfolgte in der Programmiersprache Python, primär unter Einsatz der requests-Bibliothek für die Netzwerkkommunikation sowie pandas für die Datenmanipulation. Die Basis der Datenextraktion bilden RESTful APIs. Die Kommunikation erfolgt über zustandslose HTTP-GET-Anfragen, wobei für jede Plattform ein dedizierter Connector implementiert wurde. Diese Connectoren kapseln die stark variierenden plattformspezifischen Eigenheiten der Authentifizierung und Routengenerierung: Während YouTube über einen klassischen, umgebungsvariablen-gestützten API-Key authentifiziert wird, greift der Amazon-Connector auf den Drittanbieter-Dienst RapidAPI mit spezifischen HTTP-Headern zurück. Reddit wird über unauthentifizierte, aber User-Agent-spezifische .json-Endpunkte abgefragt, und Hacker News über die offene Algolia-API. Eine methodische Besonderheit der Architektur stellt das zweistufige Abrufverfahren, auch Two-Step-Fetching genannt, bei YouTube und Amazon dar: Hier wird algorithmisch zunächst nach dem relevantesten Produkt oder Video gesucht, bevor in einem zweiten gezielten Request die zugehörigen Kommentare und Rezensionen extrahiert werden. Eine besondere technische Herausforderung bei der Aggregation ist die Paginierung  sowie die Vermeidung von API-Restriktionen. Da Server aus Performance-Gründen niemals alle Kommentare in einer einzigen JSON-Antwort ausliefern, muss der Datenabruf iterativ erfolgen. Hierfür nutzt die entwickelte Architektur je nach Datenquelle unterschiedliche Ansätze: Der Reddit-Connector wertet sogenannte Continuation-Tokens aus, der Amazon-Connector iteriert über explizite Seitenzahlen, während Hacker News und YouTube mit definierten Limit-Grenzen operieren. Um temporäre Sperren durch die Plattformbetreiber zu verhindern, integrieren die Connectoren zudem gezielte Verzögerungen zwischen den iterativen Aufrufen. Nach der erfolgreichen Extraktion greift die Transformationsschicht. Die tief verschachtelten JSON-Bäume werden extrahiert, bei Bedarf von störenden HTML-Artefakten bereinigt und in strukturierte Pandas DataFrames überführt\footcite[119]{nelli-2015}.Die BEreinigung erfolgt durch das Verwenden von \textit{Regular Expressions}. Dieser Schritt ist essenziell, da die nachfolgende Sentiment-Analyse eine tabellarische Datenstruktur voraussetzt. Durch die Konvertierung wird sichergestellt, dass die Rohdaten plattformübergreifend in einheitliche Spalten gemappt werden, konkret in platform, product\_id, text\_content, engagement und url. Dadurch wird die analytische Kernlogik vollständig von den technischen Eigenheiten der ursprünglichen Datenquellen entkoppelt.
 \subsection{Natural Language Preprocessing}
+Rohdaten aus sozialen Netzwerken und E-Commerce-Plattformen sind von Natur aus stark fehlerbehaftet. Sie enthalten orthografische Fehler, Slang, Hyperlinks, Emojis, maschinenlesbare Artefakte und eine inkonsistente Grammatik. Der Versuch, solche unstrukturierten Texte direkt einem linguistischen Algorithmus zuzuführen, führt unweigerlich zu einer signifikanten Reduktion der Klassifikationsgenauigkeit\footcite[1]{kiritchenko-2014}. Aus diesem Grund stellt das Natural Language Preprocessing einen kritischen Zwischenschritt dar, der das Rauschen in den Daten minimiert und die Texte für die nachfolgende Aspekt-basierte Sentiment-Analyse standardisiert\footcite[1]{symeonidis-2018}.
+Im Rahmen des Prototyps wurde eine automatisierte Preprocessing-Pipeline in Python implementiert. Diese Pipeline wendet sequenziell verschiedene heuristische und reguläre Operationen auf jeden extrahierten Text an. Der erste Schritt ist die Rauschunterdrückung. Hierbei identifiziert und entfernt der Algorithmus Muster, die keinen semantischen Beitrag zur Meinungsäußerung leisten. Dazu gehören URLs, irrelevante Metadaten-Fragmente sowie Benutzermarkierungen, welche ansonsten von den Sentiment-Wörterbüchern als unbekannte Vokabeln fehlinterpretiert werden könnten.
+Ein weiterer zentraler Schritt ist die Textnormalisierung. Alle Texte werden durch sogenanntes Case Folding vollständig in Kleinbuchstaben umgewandelt. Da lexikonbasierte Ansätze \textit{Strings} exakt abgleichen, würde das Wort "Akku" ohne Case Folding nicht mit dem Wörterbucheintrag "akku" übereinstimmen. Die Normalisierung garantiert somit eine höhere Trefferquote beim Durchsuchen der Texte nach Aspekten und Sentiment-Schlüsselwörtern. Gleichzeitig werden überflüssige Leerzeichen und redundante Zeilenumbrüche bereinigt, um Speicherplatz zu sparen und die Verarbeitung zu beschleunigen.
+Besonders hervorzuheben ist bei der entwickelten Methodik der bewusste Umgang mit der Tokenisierung und Interpunktion. Während klassische Bag-of-Words-Modelle des Machine Learnings oftmals alle Satzzeichen radikal entfernen, erfordert der in dieser Arbeit gewählte lexikalische Ansatz eine differenziertere Vorgehensweise. Dabei sind syntaktische Strukturen für regelbasierte Systeme von immenser Bedeutung. Ein Punkt oder ein Ausrufezeichen markiert das Ende eines semantischen Kontexts. Würde man diese entfernen, könnte ein Modifikator fälschlicherweise auf ein Adjektiv im nachfolgenden Satz angewendet werden, was die Polarität des Sentiments invertieren und das Ergebnis verfälschen würde. Daher bewahrt das Preprocessing-Modul dieses Prototyps explizit die Satzgrenzen, um den Text im späteren Verlauf der Aspekt-Analyse korrekt in syntaktisch sinnvolle Segmente aufspalten zu können.
+Zusammenfassend transformiert das Natural Language Preprocessing die unvorhersehbare Vielfalt menschlicher Internet-Kommunikation in ein bereinigtes, deterministisches Format. Erst durch diese architektonische Vorarbeit wird das Fundament gelegt, auf dem der nachfolgende Sentiment-Klassifikator präzise und performant operieren kann.
 \section{Aspect-Bases Sentiment Analysis}
+Die automatisierte Extraktion von Stimmungen, Emotionen und Meinungen aus digitalen Textdokumenten stellt ein zentrales Forschungsfeld der modernen computergestützten Linguistik dar. Während klassische Ansätze der Sentiment-Analyse Texte meist holistisch auf Dokumenten- oder Satzebene klassifizieren, erfordert die Evaluation komplexer Entitäten – wie beispielsweise moderner Konsumelektronik – eine deutlich granularere Betrachtung. Konsumenten bewerten Produkte selten ausschließlich positiv oder negativ; vielmehr äußern sie differenzierte Meinungen zu spezifischen Produkteigenschaften. Das vorliegende Kapitel widmet sich der theoretischen Fundierung und der algorithmischen Konzeption der Aspekt-basierten Sentiment-Analyse. Hierbei werden die linguistischen Grundlagen des Opinion Minings erörtert, bestehende Analyseverfahren evaluiert und die methodische Entwicklung sowie die informationstechnische Implementierung der projektspezifischen Scoring- und Gewichtungslogik detailliert dargelegt.
 \subsection{Grundlagen des Opinion Mining}
+Das Forschungsfeld des Opinion Minings befasst sich mit der computationalen Analyse von Meinungen, Gefühlen und Einstellungen gegenüber Entitäten, Individuen, Themen oder deren spezifischen Attributen\footcite[]{pang-2008}. Die historische Entwicklung dieses Fachbereichs zeigt einen kontinuierlichen Trend hin zu einer tieferen semantischen Granularität\footcite[]{bharathi-2025}). Während frühe Systeme lediglich eine binäre Klassifikation eines gesamten Textes vornahmen, etablierte sich mit der Zunahme nutzergenerierter Inhalte im Web 2.0 die Notwendigkeit einer feingranularen Extraktion. Die theoretische Basis der Aspekt-basierten Sentiment-Analyse geht maßgeblich auf die Definition eines Opinion-Quintuples zurück. Eine mathematisch formalisierte Meinung besteht demnach aus fünf Kernkomponenten: einer spezifischen Entität, einem konkreten Aspekt (Eigenschaft) dieser Entität, dem inhärenten Sentiment-Wert (Polarität und Stärke), dem Meinungsträger sowie dem exakten Zeitpunkt der Äußerung\footcite[]{liu-2011}. Für die automatisierte Analyse von Produktrezensionen im E-Commerce ist die Trennung von Entität und Aspekt von fundamentaler Bedeutung. Ein Satz wie „Das Display des Smartphones ist brillant, aber der Akku entlädt sich zu schnell“ bezieht sich auf dieselbe Entität, spricht jedoch zwei disjunkte Aspekte mit invertierten Polaritäten an. Um dieses linguistische Konstrukt algorithmisch greifbar zu machen, erfordert ein ABSA-System eine vordefinierte Kategorisierung der zu untersuchenden Merkmale. Für den vorliegenden Prototyp wurden basierend auf den strukturellen Eigenschaften von Informationstechnikprodukten sieben distinkte Aspektkategorien definiert: General, Battery, Display, Cost-Value, Processing, Camera und Software \footcite[44]{syawanodya-2025}. Die technische Herausforderung besteht darin, den unstrukturierten Text in semantische Einheiten zu zerlegen, diese den definierten Kategorien zuzuordnen und die zugehörigen deskriptiven Adjektive mathematisch zu bewerten.
 \subsection{Evaluation der Analyseverfahren}
-\subsection{Entwicklung projektspezifischer Wortlisten}
+Für die informationstechnische Umsetzung einer Aspekt-Sentiment-Klassifikation existieren in der Gegenwart zwei primäre Paradigmen: maschinelle Lernverfahren sowie regel- bzw. lexikonbasierte Ansätze. Beide methodischen Pfade weisen im Kontext von Software-Prototypen spezifische Vor- und Nachteile auf, die im Vorfeld der Systemarchitektur gegeneinander abgewogen werden müssen \footcite[268]{taboada-2011}.
+Moderne datengetriebene Ansätze, die auf tiefen neuronalen Netzen oder Transformer-Architekturen basieren, erzielen in akademischen Benchmarks hochgradig präzise Klassifikationsergebnisse, da sie komplexe, nicht-lineare semantische Beziehungen implizit erlernen \footcite[2980]{bharathi-2025}. Demgegenüber steht jedoch der erhebliche Nachteil der mangelnden Erklärbarkeit sowie die zwingende Notwendigkeit großer, manuell annotierter Trainingsdatensätze. Neuronale Netze agieren weitgehend als „Black-Box“, wodurch Fehlklassifikationen im produktiven Einsatz nur schwer auditiert oder manuell korrigiert werden können\footcite[2]{le-2026}.
+Aus diesem Grund greift der im Rahmen dieser Arbeit implementierte Klassifikator (\texttt{siehe Anhang A}) auf ein lexikonbasiertes (regelbasiertes) Verfahren zurück. Dieser Ansatz bestimmt die Polarität eines Textes durch den deterministischen Abgleich der enthaltenen Token mit vordefinierten linguistischen Ressourcen (Sentiment-Lexika), in denen Wörtern feste numerische Werte zugewiesen sind\footcite[268]{taboada-2011}. Die Evaluation dieses Verfahrens zeigt deutliche methodische Vorteile für praxisnahe Softwareprojekte: Erstens ist die Scoring-Logik zu einhundert Prozent transparent und deterministisch. Zweitens erlaubt die lexikalische Architektur eine einfache und dynamische Anpassung an die Spezifika der Technik-Domäne, ohne dass ein rechenintensives Modelltraining erforderlich ist.
 \subsection{Implementierung der Sentiment-Klassifikation}
+\label{subsec:implementierung_sentiment}
+
+Die informationstechnische Implementierung der Sentiment-Klassifikation führt die Datenstrukturen aus der Vorverarbeitung (\texttt{siehe Anhang B}) und die linguistischen Regelwerke in einer automatisierten algorithmischen Pipeline zusammen. Da nutzergenerierte Kommentare aus sozialen Netzwerken und E-Commerce-Plattformen oft informell, fragmentiert und syntaktisch unkonventionell strukturiert sind, muss der ausführende Algorithmus hochgradig robust gegenüber Rauschen operieren \footcite[1 ff.]{kiritchenko-2014}.\\
+Der Evaluierungsprozess einer Rezension beginnt mit dem Aufruf der zentralen Analysefunktion \texttt{analyze\_aspects\_advanced}. Zunächst wird die Zeichenkette vollständig in Kleinbuchstaben transformiert (\textit{Lowercasing}), um ein deterministisches String-Matching zu gewährleisten. Da ein Kommentar mehrere Aspekte simultan behandeln kann, erfolgt die Analyse strikt auf Satzebene. Der Algorithmus nutzt reguläre Ausdrücke der Form \texttt{re.split(r'[!?;]|\textbackslash.(?=\textbackslash s)', text)}, um den Gesamttext an syntaktischen Satzgrenzen aufzuspalten, wobei die im Preprocessing explizit geschützten Interpunktionszeichen als Trennkriterien dienen.\\
+Innerhalb der iterativen Verarbeitung der Einzelsätze prüft die Kontrollstruktur, ob Schlüsselwörter aus dem \texttt{ASPECT\_KEYWORDS}-Katalog präsent sind. Wird mindestens ein Aspekt identifiziert, zerlegt der Algorithmus den Satz per \texttt{.split()} in ein Array atomarer Token (Wörter). In einer nachgelagerten Schleife wird jedes Token über den regulären Ausdruck \texttt{re.sub(r'[\^{}a-z]', '', word)} von verbleibenden Sonderzeichen oder Satzzeichen isoliert, um das bereinigte Wort (\texttt{clean\_word}) direkt mit den Schlüsseln des \texttt{BASE\_SENTIMENTS}-Dictionary abzugleichen. Ist dieses im Lexikon vorhanden, extrahiert das System dessen numerischen Basiswert.\\
+Unmittelbar nach der Detektion eines Sentiment-Eintrags prüft die Logik über eine Index-Validierung den vorhergehenden Array-Eintrag am Index $i-1$. Befindet sich dieses vorherige Wort im \texttt{MODIFIERS}-Katalog, wird der extrahierte Sentiment-Score mit dem hinterlegten Modifikator-Wert multipliziert. Hierdurch wird die exakte logische Reihenfolge abgebildet: Ein direkt vorangestelltes \glqq not\grqq\ invertiert das Vorzeichen (Multiplikation mit $-1$), während ein \glqq very\grqq\ die Intensität verdoppelt (Multiplikation mit $2$). Die resultierenden Werte werden dem jeweiligen Aspekt-Konto kumulativ gutgeschrieben. Um zu verhindern, dass extrem lange Sätze oder repetitive Phrasen den Gesamtscore verzerren, integriert die Logik einen mathematischen Clipping-Mechanismus, der den akkumulierten Satz-Score über die Konstanten \texttt{MAX\_SCORE} und \texttt{MIN\_SCORE} strikt auf das Intervall zwischen $-5.0$ und $+5.0$ begrenzt \footcite[272 ff.]{taboada-2011}.\\
+Die finale Stufe der Software-Architektur betrifft die plattformspezifische Aggregation der Ergebnisse im Modul (\texttt{siehe Anhang C}). Da im Web-Kontext Interaktionen der Community ein starker Indikator für die Validität einer Meinung sind, nutzt das System eine gewichtete Aggregationsfunktion. Kommentare, die einen Score von genau $0.0$ aufweisen (keine Meinungsäußerung zum jeweiligen Aspekt), werden über den Filter \texttt{platform\_df[platform\_df[aspect] != 0.0]} vollständig exkludiert. Für alle verbleibenden Werte berechnet die Funktion \texttt{calculate\_weight} einen dynamischen Gewichtungsfaktor auf Basis der empirischen Engagement-Metriken (Likes, Upvotes oder Sterne-Bewertungen). Um virale Ausreißer zu dämpfen und das System vor Manipulationen zu schützen, erfolgt die Gewichtung nicht-linear. Für positive Interaktionen ($E \ge 0$) implementiert der Prototyp einen logarithmischen Boost mittels der \texttt{NumPy}-Bibliothek:
+
+\begin{equation}
+W_{\text{pos}} = \ln(E + 1) + 1.0
+\end{equation}
+Bei Beiträgen mit negativem Community-Feedback ($E < 0$, z.\,B. Downvotes) erfolgt eine starke mathematische Abwertung des Meinungsträger-Gewichts über die reziproke Funktion:
+
+\begin{equation}
+W_{\text{neg}} = \frac{1.0}{|E| + 1.0}
+\end{equation}
+Wobei $E$ den numerischen Wert des Engagements repräsentiert. Im letzten Schritt berechnet der Algorithmus über die Funktion \texttt{np.average(..., weights=analysis\_df['weight'])} den gewichteten Mittelwert pro Plattform und Aspekt. Das mathematische Resultat wird auf zwei Dezimalstellen gerundet (\texttt{.round(2)}) und fehlende Werte über \texttt{.fillna(0)} normalisiert, sodass ein konsolidierter, valider Daten-Katalog für die nachfolgende visuelle Dashboard-Präsentation bereitsteht.
 \section{Systemintegration und Frontend}
 \subsection{UI/UX-Anforderungen}
 \subsection{Evaluation der Frontend-Framworks}
@@ -225,6 +419,297 @@
 \subsection{Systemevaluation}
 \subsection{Beantwortung der Forschungsfragen}
 \subsection{Fazit und Ausblick}
+
+% ==========================================
+% ANHANG
+% ==========================================
+\newpage
+\pagenumbering{Roman} % Schaltet für den Nachspann auf Römische Zahlen um
+\setcounter{page}{5}  % Setzt die Zählung passend fort
+
+% Konfiguration für fehlerfreie Zeilennummern und echtes Syntax Highlighting
+\lstset{
+    language=Python,
+    backgroundcolor=\color{pybackground},   
+    commentstyle=\color{pygreen}\itshape,
+    keywordstyle=\color{pyblue}\bfseries,
+    stringstyle=\color{pypurple},
+    numberstyle=\tiny\color{pygray},
+    basicstyle=\ttfamily\scriptsize\setstretch{1.0},
+    breakatwhitespace=false,         
+    breaklines=true,                 % Automatischer Umbruch bei zu langen Zeilen
+    keepspaces=true,                 
+    numbers=left,                    % Zeilennummern links anzeigen
+    numbersep=8pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    frame=single,                    % Eleganter Rahmen um den Code
+    firstnumber=1                    % Erzwingt den Reset der Zeilennummern auf 1 pro Datei
+}
+
+\section*{Anhang}
+\addcontentsline{toc}{section}{Anhang}
+\label{sec:anhang}
+
+\subsection*{Anhang A: Quellcode \texttt{absa\_analyzer.py}}
+\label{app:absa_analyzer}
+\begin{lstlisting}
+import re
+import pandas as pd
+
+"""
+Three categories of words to filter for: Keyords, Sentiments and Modifiers.
+Keywords indicate on which part the feedback is focused (Battery, Display, etc).
+Sentiments give different scores to different adjectives and therefore adds a value to them (good, bad, etc).
+Modifiers multiply the sentiments by a factor (very good > good, etc) 
+"""
+ASPECT_KEYWORDS = {
+    "General": [
+        "phone", "iphone", "apple", "device", "smartphone", "laptop", "pc", "computer", 
+        "macbook", "hp", "machine", "product", "buy", "purchase", "upgrade", 
+        "tablet", "ipad", "notebook", "chromebook", "gadget", "samsung", "galaxy"
+    ],
+    "Battery": [
+        "battery", "charge", "charging", "capacity", "power", "lifespan", "drain", 
+        "charger", "plugged"
+    ],
+    "Display": [
+        "screen", "display", "brightness", "colors", "touch", "pixel", "oled", "hz", 
+        "refresh", "monitor", "panel", "glare", "bezel", "resolution"
+    ],
+    "Cost-Value": [
+        "price", "cost", "sale", "budget", "expensive", "cheap", "value", "worth", 
+        "discount", "$", "pay", "money", "deal", "overpriced", "bargain"
+    ],
+    "Processing": [
+        "build", "material", "durable", "quality", "plastic", "titanium", "scratch", 
+        "design", "feel", "keyboard", "trackpad", "touchpad", "hinge", "heavy", 
+        "weight", "lightweight", "portable", "bulky", "sturdy", "flimsy", "glass", "pencil", "stylus", "pen"
+    ],
+    "Camera": [
+        "camera", "photo", "video", "zoom", "lens", "pictures", "shot", "macro", 
+        "webcam", "selfie", "faceid", "face"
+    ],
+    "Software": [
+        "software", "ui", "ios", "windows", "macos", "ipados", "android", "linux", "ubuntu", 
+        "distro", "kernel", "bug", "crash", "update", "performance", "speed", "processor", 
+        "ram", "memory", "storage", "app", "apps", "bloatware", "stutter", "snappy", "chip", 
+        "m1", "m2", "m3", "m4", "cpu", "gpu", "lag"
+    ]
+}
+
+BASE_SENTIMENTS = {
+    "catastrophe": -3, "garbage": -3, "trash": -3, "awful": -3, "worst": -3, 
+    "hate": -3, "terrible": -3, "horrible": -3, "crap": -3, "scam": -3, 
+    "waste": -3, "unusable": -3, "junk": -3,
+    
+    "overpriced": -2, "flimsy": -2, "overheating": -2, "bloatware": -2, 
+    "ruined": -2, "annoying": -2, "frustrating": -2, "broken": -2,
+    
+    "bad": -1, "poor": -1, "weak": -1, "disappointing": -1, "useless": -1, 
+    "worse": -1, "slow": -1, "laggy": -1, "loud": -1, "hot": -1, "stuck": -1, 
+    "heavy": -1, "bulky": -1, "stutter": -1, "dim": -1, "glitchy": -1, "cheap": -1,
+    
+    "okay": 0, "average": 0, "fine": 0, "standard": 0, "normal": 0,
+    
+    "decent": 1, "good": 1, "solid": 1, "nice": 1, "better": 1, "well": 1, 
+    "fast": 1, "smooth": 1, "snappy": 1, "lightweight": 1, "portable": 1, 
+    "bright": 1, "sturdy": 1, "capable": 1, "clean": 1, "customizable": 1,
+    
+    "great": 2, "amazing": 2, "awesome": 2, "beautiful": 2, "love": 2, 
+    "premium": 2, "bargain": 2, "gorgeous": 2, "responsive": 2,
+    
+    "perfect": 3, "fantastic": 3, "incredible": 3, "excellent": 3, "best": 3, 
+    "flawless": 3, "unbeatable": 3
+}
+
+MODIFIERS = {
+    "very": 2, "extremely": 2, "absolutely": 2, "totally": 2, "super": 2, "really": 2,
+    "slightly": 0.5, "barely": 0.5,
+    "not": -1, "no": -1, "never": -1
+}
+
+"""
+Searching the strings for keywords, sentiments and modifiers and calculates a score. +/- 5.0 is max CAP
+"""
+def analyze_aspects_advanced(text):
+
+    results = {aspect: 0.0 for aspect in ASPECT_KEYWORDS.keys()}
+    
+    if not isinstance(text, str) or not text.strip():
+        return results
+
+    text = text.lower()
+    
+    sentences = re.split(r'[!?;]|\.(?=\s)', text)
+    
+    for sentence in sentences:
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+            
+        found_aspects = []
+        for aspect, keywords in ASPECT_KEYWORDS.items():
+            if any(keyword in sentence for keyword in keywords):
+                found_aspects.append(aspect)
+                
+        if found_aspects:
+            satz_score = 0.0
+            words = sentence.split()
+            
+            for i, word in enumerate(words):
+                clean_word = re.sub(r'[^a-z]', '', word)
+                
+                if clean_word in BASE_SENTIMENTS:
+                    score = BASE_SENTIMENTS[clean_word]
+                    
+                    if i > 0:
+                        prev_word = re.sub(r'[^a-z]', '', words[i-1])
+                        if prev_word in MODIFIERS:
+                            score = score * MODIFIERS[prev_word]
+                    
+                    satz_score += score
+            
+            for aspect in found_aspects:
+                results[aspect] += satz_score
+                
+    MAX_SCORE = 5.0
+    MIN_SCORE = -5.0
+    
+    for aspect in results:
+        if results[aspect] > MAX_SCORE:
+            results[aspect] = MAX_SCORE
+        elif results[aspect] < MIN_SCORE:
+            results[aspect] = MIN_SCORE
+            
+    return results
+
+"""
+Applies the ABSA logic on the data frame and adds the results into a new collumn
+"""
+def apply_absa_to_dataframe(df):
+    if df.empty:
+        return df
+        
+    print(f"Running Advanced Aspect-Based Sentiment Analysis on {len(df)} rows...")
+    
+    absa_results = df['clean_text'].apply(analyze_aspects_advanced)
+    
+    absa_df = pd.DataFrame(absa_results.tolist())
+    
+    return pd.concat([df, absa_df], axis=1)
+\end{lstlisting}
+
+\newpage
+\subsection*{Anhang B: Quellcode \texttt{cleaner.py}}
+\label{app:cleaner}
+\begin{lstlisting}
+import re
+import pandas as pd
+
+"""
+Deleting new lines, extra spaces/tabs, trailing and leading whitespaces and links
+"""
+def clean_text(text):
+    if not isinstance(text, str):
+        return ""
+    
+    text = re.sub(r'\s+', ' ', text)
+    
+    text = re.sub(r'http\S+|www.\S+', '', text)
+    
+    return text.strip()
+
+"""
+Cleans the dataframe if not empty
+"""
+def clean_dataframe(df):
+    if df.empty:
+        return df
+        
+    print(f"Cleaning DataFrame with {len(df)} rows...")
+    df['clean_text'] = df['text_content'].apply(clean_text)
+    
+    df = df[df['clean_text'] != ""]
+    return df
+\end{lstlisting}
+
+\newpage
+\subsection*{Anhang C: Quellcode \texttt{visualizer.py}}
+\label{app:visualizer}
+\begin{lstlisting}
+import numpy as np
+import pandas as pd
+
+def calculate_weight(score):
+    """
+    Berechnet das Gewicht eines Kommentars anhand der Interaktionen.
+    Positiv = Logarithmischer Boost (z.B. 100 Upvotes -> ~5.6 Gewicht).
+    Negativ = Starke Abwertung (z.B. -9 Downvotes -> 0.1 Gewicht).
+    """
+    if pd.isna(score):
+        return 1.0
+        
+    try:
+        score = float(score)
+    except (ValueError, TypeError):
+        return 1.0
+        
+    if score >= 0:
+        return np.log1p(score) + 1.0
+    else:
+        # Bei negativem Score: 1 / (Betrag des Scores + 1)
+        return 1.0 / (abs(score) + 1.0)
+
+"""
+Summarizes the score per plattform and weights them based on engagement.
+Filters out comments without a value/opinion (score of 0).
+"""
+def consolidate_results(df):
+
+    print("Consolidating the results with engagement weighting...")
+    
+    aspects = ["General", "Battery", "Display", "Cost-Value", "Processing", "Camera", "Software"]
+    
+    analysis_df = df.copy()
+    
+    # 1. Die neue Gewichts-Spalte berechnen
+    analysis_df['weight'] = analysis_df['engagement'].apply(calculate_weight)
+    
+    weighted_results = []
+    
+    # 2. Für jede Plattform einzeln den gewichteten Durchschnitt berechnen
+    for platform in analysis_df['platform'].unique():
+        platform_df = analysis_df[analysis_df['platform'] == platform]
+        platform_scores = {'platform': platform}
+        
+        for aspect in aspects:
+            # Nur Zeilen nehmen, in denen der Aspekt auch bewertet wurde (also nicht 0.0 ist)
+            valid_rows = platform_df[platform_df[aspect] != 0.0]
+            
+            if not valid_rows.empty:
+                # Gewichteter Durchschnitt: (Score * Gewicht) / Summe aller Gewichte
+                weighted_avg = np.average(valid_rows[aspect], weights=valid_rows['weight'])
+                platform_scores[aspect] = weighted_avg
+            else:
+                platform_scores[aspect] = np.nan
+                
+        weighted_results.append(platform_scores)
+        
+    # 3. In einen schönen DataFrame umwandeln
+    summary = pd.DataFrame(weighted_results).set_index('platform')
+    
+    # Filling the 0.0 Scores back in and rounding the numbers to look prettier
+    summary = summary.round(2).fillna(0)
+    
+    print("\n---   WEIGHTED RESULTS PER PLATFORM ---")
+    print(summary.to_string())
+    print("-" * 50)
+
+    return summary
+\end{lstlisting}
 \section{Literaturverzeichnis}
  
 \togglefalse{abx@bool@giveninits}
