@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from connectors.reddit_api import fetch_reddit_data
 from connectors.hackernews_api import fetch_hackernews_data
 from connectors.youtube_api import fetch_youtube_data
-# from connectors.amazon_api import fetch_amazon_data  # currently disabled
+from connectors.amazon_api import fetch_amazon_data
 from processing.cleaner import clean_dataframe
 from processing.absa_analyzer import apply_absa_to_dataframe
 from processing.visualizer import consolidate_results
@@ -33,7 +33,7 @@ def run_pipeline(searchquery: str, limit: int) -> pd.DataFrame:
     reddit_df = fetch_reddit_data(searchquery, limit)
     hackernews_df = fetch_hackernews_data(searchquery, limit)
     youtube_df = fetch_youtube_data(searchquery, limit)
-    # amazon_df = fetch_amazon_data(searchquery, limit)
+    amazon_df = fetch_amazon_data(searchquery, limit)
 
     print("\nRequest returned successfully:\n")
 
@@ -41,6 +41,7 @@ def run_pipeline(searchquery: str, limit: int) -> pd.DataFrame:
         ("Reddit", reddit_df),
         ("Hackernews", hackernews_df),
         ("Youtube", youtube_df),
+        ("Amazon", amazon_df),
     ]:
         print(f"------------------{label} Data------------------")
         if df is not None and not df.empty:
@@ -53,12 +54,16 @@ def run_pipeline(searchquery: str, limit: int) -> pd.DataFrame:
     reddit_df = clean_dataframe(reddit_df)
     hackernews_df = clean_dataframe(hackernews_df)
     youtube_df = clean_dataframe(youtube_df)
+    amazon_df = clean_dataframe(amazon_df)
 
     reddit_df = apply_absa_to_dataframe(reddit_df)
     hackernews_df = apply_absa_to_dataframe(hackernews_df)
     youtube_df = apply_absa_to_dataframe(youtube_df)
+    amazon_df = apply_absa_to_dataframe(amazon_df)
 
-    return pd.concat([reddit_df, hackernews_df, youtube_df], ignore_index=True)
+    return pd.concat(
+        [reddit_df, hackernews_df, youtube_df, amazon_df], ignore_index=True
+    )
 
 
 if __name__ == "__main__":
